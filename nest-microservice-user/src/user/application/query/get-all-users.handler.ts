@@ -14,7 +14,8 @@ export class GetUsersHandler implements IQueryHandler<GetUsersQuery> {
     ) { }
 
     async execute(query: GetUsersQuery): Promise<User[]> {
-        return this.userRepository.getAll();
+        const result = await this.userRepository.getAll();
+        return result;
     }
 }
 

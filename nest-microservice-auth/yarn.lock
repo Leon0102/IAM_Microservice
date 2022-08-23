@@ -967,10 +967,26 @@
   resolved "https://registry.npmjs.org/@types/node/-/node-16.11.46.tgz"
   integrity sha512-x+sfpb2dMrhCQPL4NAGs64Z9hh0t72aP0dg+PuZidmPr/0Gj5ELQTjD/t46dq3DF/8ZvSHOaIyDIbAsdPshyVQ==
 
+"@types/oauth@*":
+  version "0.9.1"
+  resolved "https://registry.npmjs.org/@types/oauth/-/oauth-0.9.1.tgz"
+  integrity sha512-a1iY62/a3yhZ7qH7cNUsxoI3U/0Fe9+RnuFrpTKr+0WVOzbKlSLojShCKe20aOD1Sppv+i8Zlq0pLDuTJnwS4A==
+  dependencies:
+    "@types/node" "*"
+
 "@types/parse-json@^4.0.0":
   version "4.0.0"
   resolved "https://registry.npmjs.org/@types/parse-json/-/parse-json-4.0.0.tgz"
   integrity sha512-//oorEZjL6sbPcKUaCdIGlIUeH26mgzimjBB77G6XRgnDl/L5wOnpyBGRe/Mmf5CVW3PwEBE1NjiMZ/ssFh4wA==
+
+"@types/passport-google-oauth20@^2.0.11":
+  version "2.0.11"
+  resolved "https://registry.npmjs.org/@types/passport-google-oauth20/-/passport-google-oauth20-2.0.11.tgz"
+  integrity sha512-9XMT1GfwhZL7UQEiCepLef55RNPHkbrCtsU7rsWPTEOsmu5qVIW8nSemtB4p+P24CuOhA+IKkv8LsPThYghGww==
+  dependencies:
+    "@types/express" "*"
+    "@types/passport" "*"
+    "@types/passport-oauth2" "*"
 
 "@types/passport-jwt@^3.0.6":
   version "3.0.6"
@@ -989,6 +1005,15 @@
     "@types/express" "*"
     "@types/passport" "*"
     "@types/passport-strategy" "*"
+
+"@types/passport-oauth2@*":
+  version "1.4.11"
+  resolved "https://registry.npmjs.org/@types/passport-oauth2/-/passport-oauth2-1.4.11.tgz"
+  integrity sha512-KUNwmGhe/3xPbjkzkPwwcPmyFwfyiSgtV1qOrPBLaU4i4q9GSCdAOyCbkFG0gUxAyEmYwqo9OAF/rjPjJ6ImdA==
+  dependencies:
+    "@types/express" "*"
+    "@types/oauth" "*"
+    "@types/passport" "*"
 
 "@types/passport-strategy@*":
   version "0.2.35"
@@ -1512,6 +1537,11 @@ base64-js@^1.3.1:
   resolved "https://registry.npmjs.org/base64-js/-/base64-js-1.5.1.tgz"
   integrity sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==
 
+base64url@3.x.x:
+  version "3.0.1"
+  resolved "https://registry.npmjs.org/base64url/-/base64url-3.0.1.tgz"
+  integrity sha512-ir1UPr3dkwexU7FdV8qBBbNDRUhMmIekYMFZfi+C/sLNnRESKPl23nB9b2pltqfOQNnGzsDdId90AEtG5tCx4A==
+
 bcrypt@^5.0.1:
   version "5.0.1"
   resolved "https://registry.npmjs.org/bcrypt/-/bcrypt-5.0.1.tgz"
@@ -1721,7 +1751,7 @@ cjs-module-lexer@^1.0.0:
 
 class-validator@^0.13.2:
   version "0.13.2"
-  resolved "https://registry.yarnpkg.com/class-validator/-/class-validator-0.13.2.tgz#64b031e9f3f81a1e1dcd04a5d604734608b24143"
+  resolved "https://registry.npmjs.org/class-validator/-/class-validator-0.13.2.tgz"
   integrity sha512-yBUcQy07FPlGzUjoLuUfIOXzgynnQPPruyK1Ge2B74k9ROwnle1E+NxLWnUv5OLU8hA/qL5leAE9XnXq3byaBw==
   dependencies:
     libphonenumber-js "^1.9.43"
@@ -3421,9 +3451,9 @@ levn@^0.4.1:
     type-check "~0.4.0"
 
 libphonenumber-js@^1.9.43:
-  version "1.10.12"
-  resolved "https://registry.yarnpkg.com/libphonenumber-js/-/libphonenumber-js-1.10.12.tgz#75ebe2f1887d12bbf45af5655fdb63f55f4ee05b"
-  integrity sha512-xTFBs3ipFQNmjCUkDj6ZzRJvs97IyazFHBKWtrQrLiYs0Zk0GANob1hkMRlQUQXbJrpQGwnI+/yU4oyD4ohvpw==
+  version "1.10.13"
+  resolved "https://registry.npmjs.org/libphonenumber-js/-/libphonenumber-js-1.10.13.tgz"
+  integrity sha512-b74iyWmwb4GprAUPjPkJ11GTC7KX4Pd3onpJfKxYyY8y9Rbb4ERY47LvCMEDM09WD3thiLDMXtkfDK/AX+zT7Q==
 
 lines-and-columns@^1.1.6:
   version "1.2.4"
@@ -3750,6 +3780,11 @@ npmlog@^5.0.1:
     gauge "^3.0.0"
     set-blocking "^2.0.0"
 
+oauth@0.9.x:
+  version "0.9.15"
+  resolved "https://registry.npmjs.org/oauth/-/oauth-0.9.15.tgz"
+  integrity sha512-a5ERWK1kh38ExDEfoO6qUHJb32rd7aYmPHuyCu3Fta/cnICvYmgd2uhuKXvPD+PXB+gCEYYEaQdIRAjCOwAKNA==
+
 object-assign@^4, object-assign@^4.1.1:
   version "4.1.1"
   resolved "https://registry.npmjs.org/object-assign/-/object-assign-4.1.1.tgz"
@@ -3874,6 +3909,13 @@ parseurl@~1.3.3:
   resolved "https://registry.npmjs.org/parseurl/-/parseurl-1.3.3.tgz"
   integrity sha512-CiyeOxFT/JZyN5m0z9PfXw4SCBJ6Sygz1Dpl0wqjlhDEGGBP1GnsUVEL0p63hoG1fcj3fHynXi9NYO4nWOL+qQ==
 
+passport-google-oauth20@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.npmjs.org/passport-google-oauth20/-/passport-google-oauth20-2.0.0.tgz"
+  integrity sha512-KSk6IJ15RoxuGq7D1UKK/8qKhNfzbLeLrG3gkLZ7p4A6DBCcv7xpyQwuXtWdpyR0+E0mwkpjY1VfPOhxQrKzdQ==
+  dependencies:
+    passport-oauth2 "1.x.x"
+
 passport-jwt@^4.0.0:
   version "4.0.0"
   resolved "https://registry.npmjs.org/passport-jwt/-/passport-jwt-4.0.0.tgz"
@@ -3888,6 +3930,17 @@ passport-local@^1.0.0:
   integrity sha512-9wCE6qKznvf9mQYYbgJ3sVOHmCWoUNMVFoZzNoznmISbhnNNPhN9xfY3sLmScHMetEJeoY7CXwfhCe7argfQow==
   dependencies:
     passport-strategy "1.x.x"
+
+passport-oauth2@1.x.x:
+  version "1.6.1"
+  resolved "https://registry.npmjs.org/passport-oauth2/-/passport-oauth2-1.6.1.tgz"
+  integrity sha512-ZbV43Hq9d/SBSYQ22GOiglFsjsD1YY/qdiptA+8ej+9C1dL1TVB+mBE5kDH/D4AJo50+2i8f4bx0vg4/yDDZCQ==
+  dependencies:
+    base64url "3.x.x"
+    oauth "0.9.x"
+    passport-strategy "1.x.x"
+    uid2 "0.0.x"
+    utils-merge "1.x.x"
 
 passport-strategy@1.x.x, passport-strategy@^1.0.0:
   version "1.0.0"
@@ -4057,7 +4110,7 @@ queue-microtask@^1.2.2:
 
 rand-token@^1.0.1:
   version "1.0.1"
-  resolved "https://registry.yarnpkg.com/rand-token/-/rand-token-1.0.1.tgz#a47fdfd94894cc349d74234403c4b24624733c58"
+  resolved "https://registry.npmjs.org/rand-token/-/rand-token-1.0.1.tgz"
   integrity sha512-Zri5SfJmEzBJ3IexFdigvPSCamslJ7UjLkUn0tlgH7COJvaUr5V7FyUYgKifEMTw7gFO8ZLcWjcU+kq8akipzg==
 
 randombytes@^2.1.0:
@@ -4759,6 +4812,11 @@ typescript@4.7.4, typescript@^4.3.5:
   resolved "https://registry.npmjs.org/typescript/-/typescript-4.7.4.tgz"
   integrity sha512-C0WQT0gezHuw6AdY1M2jxUO83Rjf0HP7Sk1DtXj6j1EwkQNZrHAg2XPWlq62oqEhYvONq5pkC2Y9oPljWToLmQ==
 
+uid2@0.0.x:
+  version "0.0.4"
+  resolved "https://registry.npmjs.org/uid2/-/uid2-0.0.4.tgz"
+  integrity sha512-IevTus0SbGwQzYh3+fRsAMTVVPOoIVufzacXcHPmdlle1jUpq7BRL+mw3dgeLanvGZdwwbWhRV6XrcFNdBmjWA==
+
 universalify@^2.0.0:
   version "2.0.0"
   resolved "https://registry.npmjs.org/universalify/-/universalify-2.0.0.tgz"
@@ -4789,7 +4847,7 @@ util-deprecate@^1.0.1, util-deprecate@~1.0.1:
   resolved "https://registry.npmjs.org/util-deprecate/-/util-deprecate-1.0.2.tgz"
   integrity sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==
 
-utils-merge@1.0.1, utils-merge@^1.0.1:
+utils-merge@1.0.1, utils-merge@1.x.x, utils-merge@^1.0.1:
   version "1.0.1"
   resolved "https://registry.npmjs.org/utils-merge/-/utils-merge-1.0.1.tgz"
   integrity sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA==
@@ -4820,7 +4878,7 @@ v8-to-istanbul@^9.0.1:
 
 validator@^13.7.0:
   version "13.7.0"
-  resolved "https://registry.yarnpkg.com/validator/-/validator-13.7.0.tgz#4f9658ba13ba8f3d82ee881d3516489ea85c0857"
+  resolved "https://registry.npmjs.org/validator/-/validator-13.7.0.tgz"
   integrity sha512-nYXQLCBkpJ8X6ltALua9dRrZDHVYxjJ1wgskNt1lH9fzGjs3tgojGSCBjmEPwkWS1y29+DrizMTW19Pr9uB2nw==
 
 vary@^1, vary@~1.1.2:

@@ -3,10 +3,12 @@ import { Module } from "@nestjs/common";
 import { ClientsModule, Transport } from "@nestjs/microservices";
 import { JwtModule } from '@nestjs/jwt';
 import { AuthService } from "./auth.service";
-import { LocalStrategy } from "./local.strategy";
+import { LocalStrategy } from "./guard/local.strategy";
 import { AuthController } from "./auth.controller";
-import constants from "./constants";
-import { JwtRefreshTokenStrategy } from "./jwt.refreshtoken.strategy";
+import { JwtRefreshTokenStrategy } from "./guard/jwt.refreshtoken.strategy";
+import { GoogleStrategy } from "./guard/google.strategy";
+import * as dotenv from 'dotenv';
+dotenv.config();
 
 @Module({
   imports: [ClientsModule.register([{
@@ -17,10 +19,10 @@ import { JwtRefreshTokenStrategy } from "./jwt.refreshtoken.strategy";
       port: 4010,
     }
   }]), JwtModule.register({
-    secret: constants.jwtSecret,
+    secret: process.env.JWT_SECRET,
     signOptions: { expiresIn: '3600s' }
   })],
   controllers: [AuthController],
-  providers: [AuthService, LocalStrategy, JwtRefreshTokenStrategy]
+  providers: [AuthService, LocalStrategy, JwtRefreshTokenStrategy, GoogleStrategy]
 })
 export class AuthModule { }

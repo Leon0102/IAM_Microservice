@@ -17,7 +17,7 @@ export class User extends AggregateRoot implements UserInterface {
   @Column()
   username: string;
 
-  @Column()
+  @Column({ nullable: true })
   @Min(4)
   @Exclude()
   password: string;
@@ -33,6 +33,9 @@ export class User extends AggregateRoot implements UserInterface {
   @Column({ nullable: true })
   @Exclude()
   refreshtokenexpires: Date;
+
+  @Column({ default: false })
+  public isEmailConfirmed: boolean;
 
   @CreateDateColumn()
   @Exclude()
@@ -52,7 +55,9 @@ export class User extends AggregateRoot implements UserInterface {
 
   @BeforeInsert()
   async hashPassword() {
-    this.password = await hash(this.password, 10);
+    if (this.password) {
+      this.password = await hash(this.password, 10);
+    }
   }
 
   // @BeforeUpdate()
@@ -70,6 +75,10 @@ export class User extends AggregateRoot implements UserInterface {
     this.username = username;
     this.password = password;
     this.email = email;
+  }
+
+  confirmEmail() {
+    this.isEmailConfirmed = true;
   }
 
   async updateUser(username: string, password: string) {

@@ -3,10 +3,16 @@ import { AmqpConnection } from "@golevelup/nestjs-rabbitmq";
 import { MailerService } from "@nestjs-modules/mailer";
 import { BadRequestException, Inject, Logger } from "@nestjs/common";
 import { CommandHandler, ICommandHandler } from "@nestjs/cqrs";
+import { ClientProxy } from "@nestjs/microservices";
 import { User } from "src/user/domain/user.entity";
 import { IUserRepository } from "src/user/domain/user.repository";
 import { CreateUserCommand } from "./create-user.command";
 
+interface VerificationTokenPayload {
+  email: string;
+}
+
+export default VerificationTokenPayload;
 
 @CommandHandler(CreateUserCommand)
 export class CreateUserHandler implements ICommandHandler<CreateUserCommand> {
@@ -14,12 +20,13 @@ export class CreateUserHandler implements ICommandHandler<CreateUserCommand> {
     @Inject('UserRepository')
     private readonly userRepository: IUserRepository,
     private readonly amqpConnection: AmqpConnection,
+    @Inject('AUTH_CLIENT')
+    private readonly client: ClientProxy,
     private mailService: MailerService
   ) { }
 
   async execute(command: CreateUserCommand): Promise<User> {
     try {
-
       const userExist = await this.userRepository.checkExistEmail(command.email);
       if (userExist) {
         throw new BadRequestException('User with this email already exist');
@@ -31,8 +38,11 @@ export class CreateUserHandler implements ICommandHandler<CreateUserCommand> {
         UserName: result.username,
         Email: result.email,
       }
-      this.amqpConnection.publish('test', 'UserCreatedIntergrationEvent', message, { persistent: true });
-
+      // this.amqpConnection.publish('test', 'UserCreatedIntergrationEvent', message, { persistent: true });
+      const payload: VerificationTokenPayload = { email: result.email };
+      const token = await this.client.send({ role: 'auth', cmd: 'generateToken' }, payload).toPromise();
+      // console.log(token);
+      const url = `http://localhost:3010/users/confirm-email?token=${token}`;
       await this.mailService.sendMail({
         to: newUser.email,
         from: 'suandleon2612@gmail.com',
@@ -220,7 +230,7 @@ export class CreateUserHandler implements ICommandHandler<CreateUserCommand> {
                     <table border="0" cellpadding="0" cellspacing="0">
                       <tr>
                         <td align="center" bgcolor="#1a82e2" style="border-radius: 6px;">
-                          <a href="https://www.blogdesire.com" target="_blank" style="display: inline-block; padding: 16px 36px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; color: #ffffff; text-decoration: none; border-radius: 6px;">Do Something Sweet</a>
+                          <a href="${url}" target="_blank" style="display: inline-block; padding: 16px 36px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; color: #ffffff; text-decoration: none; border-radius: 6px;">Do Something Sweet</a>
                         </td>
                       </tr>
                     </table>

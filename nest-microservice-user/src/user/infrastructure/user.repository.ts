@@ -11,7 +11,9 @@ export class UserRepository extends Repository<User> implements IUserRepository 
     }
 
     async getAll(): Promise<User[]> {
-        return await getRepository(User).find();
+        return await getRepository(User).createQueryBuilder('user')
+            // .where('user.isEmailConfirmed = true')
+            .getMany();
     }
 
     async findOneByEmail(email: string): Promise<User> {

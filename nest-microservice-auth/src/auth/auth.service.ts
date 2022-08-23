@@ -1,12 +1,13 @@
 /* eslint-disable prettier/prettier */
-import { Injectable, Inject, Logger, RequestTimeoutException } from '@nestjs/common';
-import { compareSync } from 'bcrypt';
+import { Injectable, Inject, Logger, RequestTimeoutException, BadRequestException } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { timeout, catchError } from 'rxjs/operators';
 import { TimeoutError, throwError } from 'rxjs';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import * as randtoken from 'rand-token';
+import * as dotenv from 'dotenv';
+dotenv.config();
 
 
 @Injectable()
@@ -18,24 +19,14 @@ export class AuthService {
 
   async validateUser(email: string, password: string): Promise<any> {
     try {
-      const user = await this.client.send({ role: 'user', cmd: 'get' }, { email })
-        .pipe(
-          timeout(5000),
-          catchError((err: Error) => {
-            if (err instanceof TimeoutError) {
-              return throwError(new RequestTimeoutException());
-            }
-            return throwError(err);
-          }
-          )
-        ).toPromise();
-      // console.log(user.password);
+      const user = await this.getUserByMail(email);
       if (!user) {
         return null;
       }
-      // console.log(bcrypt.compareSync(password.toString(), user.password));
+      if (user.password === null) {
+        throw new BadRequestException('User has no password');
+      }
       if (await bcrypt.compareSync(password, user.password)) {
-        // console.log('success');
         return user;
       }
       return null;
@@ -58,7 +49,6 @@ export class AuthService {
           }
           )
         ).toPromise();
-      // console.log(user);
       if (!user) {
         return null;
       }
@@ -76,7 +66,7 @@ export class AuthService {
       id: user.uuid,
     };
     const accessToken = this.jwtService.sign(payload, {
-      secret: 'PhanTranHuyInformationTechnology'
+      secret: process.env.JWT_SECRET
     });
     // console.log(user.uuid);
     const refreshToken = await this.generateRefreshToken(user.uuid);
@@ -88,7 +78,6 @@ export class AuthService {
 
   validateToken(jwt: string) {
     const result = this.jwtService.verify(jwt);
-    // console.log(result);
     return result;
   }
 
@@ -99,7 +88,7 @@ export class AuthService {
       id: user.id,
     }
     return this.jwtService.sign(payload, {
-      secret: process.env.JWT_SECRET,
+      secret: process.env.JWT_SECRET
     });
   }
 
@@ -107,8 +96,7 @@ export class AuthService {
     const refreshToken = randtoken.generate(32);
     const expirydate = new Date();
     expirydate.setDate(expirydate.getDate() + 6);
-    // await this.usersService.saveorupdateRefreshToken(refreshToken, userId, expirydate);
-    const result = await this.client.send({ role: 'user', cmd: 'saveorupdateRefreshToken' }, { userId, refreshToken, expirydate })
+    await this.client.send({ role: 'user', cmd: 'saveorupdateRefreshToken' }, { userId, refreshToken, expirydate })
       .pipe(
         timeout(5000),
         catchError((err: Error) => {
@@ -119,7 +107,6 @@ export class AuthService {
         }
         )
       ).toPromise();
-    // console.log(result);
     return refreshToken
   }
 
@@ -127,6 +114,38 @@ export class AuthService {
     return {
       accessToken: await this.generateJwt(user),
       refreshToken: await this.generateRefreshToken(user.id)
+    }
+  }
+
+  async googleLogin(req) {
+    if (!req.user) {
+      return 'No user from google'
+    }
+    const checkUser = await this.getUserByMail(req.user.email);
+    if (checkUser) {
+      return this.login(checkUser);
+    } else {
+      try {
+        const user = await this.client.send({ role: 'user', cmd: 'createWithGoogle' }, { email: req.user.email, username: req.user.firstName, password: null })
+          .pipe(
+            timeout(5000),
+            catchError((err: Error) => {
+              if (err instanceof TimeoutError) {
+                return throwError(new RequestTimeoutException());
+              }
+              return throwError(err);
+            }
+            )
+          ).toPromise();
+        return this.login(user);
+        // return {
+        //   message: 'User information from google',
+        //   user: user
+        // }
+      }
+      catch (e) {
+        Logger.log(e);
+      }
     }
   }
 }

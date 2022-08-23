@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { Module, Provider } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserService } from './domain/user.service';
+import { UserService } from './application/user.service';
 import { UserController } from './application/user.controller';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { UserRepository } from './infrastructure/user.repository';
@@ -14,6 +14,9 @@ import { UpdateUserHandler } from './application/command/update-user.handler';
 import { DeleteUserHandler } from './application/command/delete-user.handler';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { ResetPasswordHandler } from './application/command/reset-password.handler';
+import { ConfirmEmailHandler } from './application/command/confirm-email.handler';
+import * as dotenv from 'dotenv';
+dotenv.config();
 
 
 export const UserRepoProvider: Provider = {
@@ -27,7 +30,8 @@ const application = [
   CreateUserHandler,
   UpdateUserHandler,
   DeleteUserHandler,
-  ResetPasswordHandler
+  ResetPasswordHandler,
+  ConfirmEmailHandler
 ]
 
 @Module({
@@ -36,10 +40,12 @@ const application = [
     TypeOrmModule.forFeature([UserRepository]),
     MailerModule.forRoot({
       transport: {
-        host: 'smtp.sendgrid.net',
+        host: 'smtp.gmail.com',
+        port: 465,
+        secure: true,
         auth: {
-          user: 'apikey',
-          pass: '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'
+          user: process.env.MAIL_USER,
+          pass: process.env.MAIL_PASSWORD,
         }
       }
     }),

@@ -3,8 +3,7 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Strategy, ExtractJwt } from 'passport-jwt';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import * as dotenv from 'dotenv';
-import { AuthService } from './auth.service';
-import constants from './constants';
+import { AuthService } from '../auth.service';
 dotenv.config();
 
 @Injectable()
@@ -13,7 +12,7 @@ export class JwtRefreshTokenStrategy extends PassportStrategy(Strategy, "jwt-ref
         super({
             jwtFromRequest: ExtractJwt.fromBodyField('accessToken'),
             ignoreExpiration: true,
-            secretOrKey: constants.jwtSecret,
+            secretOrKey: process.env.JWT_SECRET,
             passReqToCallback: true
         });
     }
