@@ -1,0 +1,54 @@
+_format_version: "1.1"
+_transform: true
+
+services:
+  - host: mockbin.org
+    name: example_service
+    port: 80
+    protocol: http
+    routes:
+      - name: example_route
+        paths:
+          - /mock
+        strip_path: true
+
+  - host: host.docker.internal
+    name: auth_service
+    port: 3000
+    path: /
+    protocol: http
+    routes:
+      - name: auth_route
+        paths:
+          - /api/auth
+        strip_path: true
+  - host: host.docker.internal
+    name: user_service
+    port: 3010
+    path: /users
+    protocol: http
+    routes:
+      - name: user_route
+        paths:
+          - /api/users
+        strip_path: true
+  - host: host.docker.internal
+    name: work_service
+    port: 5000
+    path: /api
+    protocol: http
+    routes:
+      - name: work_route
+        paths:
+          - /api
+        strip_path: true
+  - host: host.docker.internal
+    name: request_service
+    port: 6000
+    path: /api/requests
+    protocol: http
+    routes:
+      - name: request_route
+        paths:
+          - /api/requests
+        strip_path: true
